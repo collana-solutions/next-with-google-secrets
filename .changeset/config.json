@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@4.0.0/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "neolution-ch/next-with-google-secrets" }],
+  "changelog": ["@changesets/changelog-github", { "repo": "collana-solutions/next-with-google-secrets" }],
   "commit": false,
   "fixed": [],
   "linked": [],
