@@ -2,10 +2,10 @@
   "name": "@neolution-ch/next-with-google-secrets",
   "version": "0.6.2",
   "description": "overrides mapped config-keys with the value from gcp secrets ",
-  "homepage": "https://neolution-ch.github.io/next-with-google-secrets",
+  "homepage": "https://github.com/collana-solutions/next-with-google-secrets#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neolution-ch/next-with-google-secrets"
+    "url": "git+https://github.com/collana-solutions/next-with-google-secrets"
   },
   "license": "MIT",
   "author": "Neolution",
