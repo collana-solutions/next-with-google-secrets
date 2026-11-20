@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@4.0.0/schema.json",
   "changelog": ["@changesets/changelog-github", { "repo": "collana-solutions/next-with-google-secrets" }],
   "commit": false,
-  "fixed": [],
+  "fixed": [["@collana-solutions/next-with-google-secrets"]],
   "linked": [],
   "access": "public",
   "baseBranch": "main",

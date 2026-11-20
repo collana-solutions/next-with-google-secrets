@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`@neolution-ch/next-with-google-secrets` starts your next application with predefined mapped google secrets in the config.
+`@collana-solutions/next-with-google-secrets` starts your next application with predefined mapped google secrets in the config.
 
 ## Options
 
@@ -17,20 +17,20 @@
 ## Quick Start
 
 ```shell
-npm install @neolution-ch/next-with-google-secrets
+npm install @collana-solutions/next-with-google-secrets
 ```
 
 or
 
 ```shell
-yarn add @neolution-ch/next-with-google-secrets
+yarn add @collana-solutions/next-with-google-secrets
 ```
 
 then use the available function in your `next.config.js` like this:
 
 ```typescript
 ...
-const { withGoogleSecrets } = require("@neolution-ch/next-with-google-secrets");
+const { withGoogleSecrets } = require("@collana-solutions/next-with-google-secrets");
 ...
 module.export = () =>
     withGoogleSecrets({

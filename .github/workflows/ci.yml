@@ -3,63 +3,106 @@ name: CI
 on:
   workflow_dispatch:
   pull_request:
-    branches: [main, "release/**"]
-    types: [opened, synchronize, ready_for_review]
+    branches:
+      - main
+      - "release/**"
+    types: [opened, synchronize, reopened, ready_for_review]
 
-# cancel running actions for current PR if new commits were pushed
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
+
+permissions: {}
 
 jobs:
   changeset-check:
     name: Changeset Check
-    if: github.event.pull_request.draft == false
+    if: github.event_name == 'pull_request' && !github.event.pull_request.draft
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
 
-      # Activates the pnpm version pinned in package.json's "packageManager".
+      # Activates the pnpm version pinned in the root manifest packageManager field.
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      # The Version Packages PR consumes the changesets it releases, so the check cannot pass on it. A branch name
+      # alone is no proof (anyone can push a changeset-release/* branch), so the PR must also come from the bot.
+      - name: Check for changesets
+        if: ${{ !(startsWith(github.head_ref, 'changeset-release/') && github.event.pull_request.user.login == 'csag-changesets-bot[bot]') }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: pnpm exec changeset status --since="origin/$BASE_REF"
+
+  # Keep the job name: the branch ruleset requires the "Verify" check.
+  verify:
+    name: Verify
+    if: github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
       - name: Enable Corepack
         run: corepack enable
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      # The Version Packages PR consumes the changesets it releases, so the check cannot pass on it. A branch name
-      # alone is no proof (anyone can push a changeset-release/* branch), so the PR must also come from the bot.
-      - name: Check for changesets
-        if: ${{ !(startsWith(github.head_ref, 'changeset-release/') && github.event.pull_request.user.login == 'csag-changesets-bot[bot]') }}
-        run: pnpm exec changeset status --since=origin/${{ github.base_ref }}
+      - name: Check formatting
+        run: pnpm run prettier-check
 
-  ci:
-    if: github.event.pull_request.draft == false
+      # Type-aware lint over src and test.
+      - name: Lint
+        run: pnpm run lint
+
+      # rollup-plugin-typescript2 type-checks src and fails the build on errors.
+      - name: Build
+        run: pnpm run build
+
+      # ts-jest type-checks the tests as it runs them.
+      - name: Test
+        run: pnpm run test
+
+  # Static analysis of the workflows themselves (template injection, unpinned actions,
+  # excessive permissions). Findings fail the job.
+  zizmor:
+    name: zizmor
+    if: github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24.x]
+    permissions:
+      contents: read
+      actions: read
     steps:
-      - uses: actions/checkout@v7
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v7
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: ${{ matrix.node-version }}
+          persist-credentials: false
 
-      # Activates the pnpm version pinned in package.json's "packageManager".
-      - name: Enable Corepack
-        run: corepack enable
-
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run prettier-check
-      - run: pnpm run lint
-      - run: pnpm run build
-      - run: pnpm exec jest
+      - name: Run zizmor
+        uses: zizmorcore/zizmor-action@85b2b9fb8e3325e7a23d7d0a9d7ba5ae0f999e3e # v0.7.1
+        with:
+          advanced-security: false

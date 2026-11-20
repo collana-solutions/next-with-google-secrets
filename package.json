@@ -1,5 +1,5 @@
 {
-  "name": "@neolution-ch/next-with-google-secrets",
+  "name": "@collana-solutions/next-with-google-secrets",
   "version": "0.6.2",
   "description": "overrides mapped config-keys with the value from gcp secrets ",
   "homepage": "https://github.com/collana-solutions/next-with-google-secrets#readme",
@@ -8,7 +8,7 @@
     "url": "git+https://github.com/collana-solutions/next-with-google-secrets"
   },
   "license": "MIT",
-  "author": "Neolution",
+  "author": "collana solutions AG",
   "sideEffects": false,
   "exports": {
     "./dist/*": "./dist/*",
@@ -72,6 +72,7 @@
     "jest": "^30.3.0",
     "next": "^16.2.4",
     "nodemon": "^3.1.14",
+    "pkg-pr-new": "^0.0.93",
     "prettier": "^3.8.3",
     "rollup": "^4.60.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
