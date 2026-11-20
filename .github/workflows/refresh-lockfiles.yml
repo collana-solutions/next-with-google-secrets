@@ -46,6 +46,20 @@ jobs:
           rm -f pnpm-lock.yaml
           pnpm install --lockfile-only
 
+      # The repository root is the published package, so the Changeset Check counts the
+      # refreshed lockfile as a change to it. The lockfile is not published, so the
+      # Dependabot changeset script writes an empty changeset that satisfies the check
+      # without a release.
+      - name: Add changeset
+        env:
+          PR_TITLE: "chore: refresh lockfiles (transitive dependency update)"
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "The lockfile did not change, so no changeset is needed"
+            exit 0
+          fi
+          node scripts/generate-dependabot-changeset.mjs
+
       # GitHub does not start pull_request workflows for a push made with GITHUB_TOKEN.
       # With the App token, CI runs on the refresh PR.
       - name: Generate App Token
@@ -69,6 +83,6 @@ jobs:
             Regenerates `pnpm-lock.yaml` so transitive dependencies pick up the
             newest versions allowed by the ranges already in the manifests.
 
-            No manifest is edited, so no changeset is required: nothing here can
-            change a published package version.
+            No manifest is edited, so nothing here changes the published package.
+            The empty changeset only satisfies the Changeset Check.
           labels: dependencies
