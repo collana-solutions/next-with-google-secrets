@@ -1,5 +1,28 @@
 # @collana-solutions/next-with-google-secrets
 
+## 1.0.0
+
+### Major Changes
+
+- [#81](https://github.com/collana-solutions/next-with-google-secrets/pull/81) [`385df3d`](https://github.com/collana-solutions/next-with-google-secrets/commit/385df3d22a20ee31b79446dd1e01c3d545bdc7fe) Thanks [@neotrow](https://github.com/neotrow)! - The package is now published as `@collana-solutions/next-with-google-secrets`. The API is unchanged. To migrate, replace the old package with the new one:
+  
+  ```shell
+  npm uninstall @neolution-ch/next-with-google-secrets
+  npm install @collana-solutions/next-with-google-secrets
+  ```
+  
+  Then change the import in `next.config.js`:
+  
+  ```js
+  const { withGoogleSecrets } = require("@collana-solutions/next-with-google-secrets");
+  ```
+  
+  `@neolution-ch/next-with-google-secrets` gets deprecated and receives no further releases.
+
+### Patch Changes
+
+- [#80](https://github.com/collana-solutions/next-with-google-secrets/pull/80) [`29daca0`](https://github.com/collana-solutions/next-with-google-secrets/commit/29daca039d288ae948602730ddcdb71ba36c3d43) Thanks [@neotrow](https://github.com/neotrow)! - The package metadata points to the collana-solutions GitHub organization, and `homepage` to the repository README.
+
 ## 0.6.2
 
 ### Patch Changes
