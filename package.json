@@ -1,6 +1,6 @@
 {
   "name": "@collana-solutions/next-with-google-secrets",
-  "version": "0.6.2",
+  "version": "1.0.0",
   "description": "overrides mapped config-keys with the value from gcp secrets ",
   "homepage": "https://github.com/collana-solutions/next-with-google-secrets#readme",
   "repository": {
