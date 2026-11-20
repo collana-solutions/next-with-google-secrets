@@ -46,10 +46,10 @@
     "release": "changeset publish"
   },
   "dependencies": {
-    "@google-cloud/secret-manager": "^6.0.0"
+    "@google-cloud/secret-manager": "^7.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
+    "@babel/core": "^8.1.0",
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
     "@popperjs/core": "^2.11.8",
@@ -57,17 +57,17 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.6.0",
+    "@types/node": "^26.6.6",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",
-    "concurrently": "^9.2.1",
+    "concurrently": "^10.0.6",
     "cross-env": "^10.1.0",
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jest": "^29.15.2",
-    "eslint-plugin-jsdoc": "^62.9.0",
+    "eslint-plugin-jsdoc": "^65.4.4",
     "eslint-plugin-storybook": "^10.3.5",
     "jest": "^30.3.0",
     "next": "^16.2.4",
@@ -80,7 +80,7 @@
     "shx": "^0.4.0",
     "ts-jest": "^29.4.9",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "webpack": "^5.106.2",
     "yalc": "^1.0.0-pre.53"
   },
