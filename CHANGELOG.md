@@ -1,4 +1,4 @@
-# Changelog
+# @collana-solutions/next-with-google-secrets
 
 ## 0.6.2
 
